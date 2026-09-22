@@ -1,0 +1,29 @@
+name: ppa_flutter
+description: "Aplikasi Pelaporan PPA"
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # Package wajib untuk kode kamu:
+  http: ^1.2.0
+  google_fonts: ^6.2.1
+  cupertino_icons: ^1.0.8
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+
+flutter:
+  uses-material-design: true
+
+  # Opsional: jika nanti ada aset gambar lokal
+  # assets:
+  #   - assets/images/
