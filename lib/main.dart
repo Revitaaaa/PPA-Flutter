@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
+import 'screens/login_screen.dart';
+
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -39,6 +42,7 @@ class SahabatPPAApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      navigatorKey: navigatorKey,
       title: 'Sahabat PPA',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
@@ -47,7 +51,15 @@ class SahabatPPAApp extends StatelessWidget {
           Theme.of(context).textTheme,
         ),
       ),
-      home: const MainNavigationScreen(),
+      home: LoginScreen(
+        onLoginSuccess: () {
+          navigatorKey.currentState!.pushReplacement(
+            MaterialPageRoute(
+              builder: (context) => const MainNavigationScreen(),
+            ),
+          );
+        },
+      ),
     );
   }
 }
@@ -62,11 +74,13 @@ class WavyHeaderClipper extends CustomClipper<Path> {
     path.lineTo(0, size.height - 35);
     var firstControlPoint = Offset(size.width / 4, size.height);
     var firstEndPoint = Offset(size.width / 2, size.height - 20);
-    path.quadraticBezierTo(firstControlPoint.dx, firstControlPoint.dy, firstEndPoint.dx, firstEndPoint.dy);
+    path.quadraticBezierTo(firstControlPoint.dx, firstControlPoint.dy,
+        firstEndPoint.dx, firstEndPoint.dy);
 
     var secondControlPoint = Offset(size.width * 0.75, size.height - 45);
     var secondEndPoint = Offset(size.width, size.height - 15);
-    path.quadraticBezierTo(secondControlPoint.dx, secondControlPoint.dy, secondEndPoint.dx, secondEndPoint.dy);
+    path.quadraticBezierTo(secondControlPoint.dx, secondControlPoint.dy,
+        secondEndPoint.dx, secondEndPoint.dy);
 
     path.lineTo(size.width, 0);
     path.close();
@@ -105,17 +119,22 @@ class FigmaScaffold extends StatelessWidget {
           children: [
             const Icon(Icons.notifications_active, color: AppTheme.primaryPink),
             const SizedBox(width: 8),
-            Text('Notifikasi', style: GoogleFonts.plusJakartaSans(fontWeight: FontWeight.bold)),
+            Text('Notifikasi',
+                style:
+                    GoogleFonts.plusJakartaSans(fontWeight: FontWeight.bold)),
           ],
         ),
         content: Text(
           'Layanan Sahabat PPA aktif 24 jam untuk mendampingi dan melindungi.',
-          style: GoogleFonts.plusJakartaSans(fontSize: 13, color: AppTheme.textDark),
+          style: GoogleFonts.plusJakartaSans(
+              fontSize: 13, color: AppTheme.textDark),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
-            child: Text('Tutup', style: GoogleFonts.plusJakartaSans(color: AppTheme.primaryPink, fontWeight: FontWeight.bold)),
+            child: Text('Tutup',
+                style: GoogleFonts.plusJakartaSans(
+                    color: AppTheme.primaryPink, fontWeight: FontWeight.bold)),
           ),
         ],
       ),
@@ -127,22 +146,31 @@ class FigmaScaffold extends StatelessWidget {
       context: context,
       builder: (ctx) => AlertDialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        title: Text('Profil Pengguna', style: GoogleFonts.plusJakartaSans(fontWeight: FontWeight.bold)),
+        title: Text('Profil Pengguna',
+            style: GoogleFonts.plusJakartaSans(fontWeight: FontWeight.bold)),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Nama: Revitaaa', style: GoogleFonts.plusJakartaSans(fontSize: 13, fontWeight: FontWeight.w600)),
+            Text('Nama: Revitaaa',
+                style: GoogleFonts.plusJakartaSans(
+                    fontSize: 13, fontWeight: FontWeight.w600)),
             const SizedBox(height: 4),
-            Text('Status: Terverifikasi', style: GoogleFonts.plusJakartaSans(fontSize: 12, color: AppTheme.textGrey)),
+            Text('Status: Terverifikasi',
+                style: GoogleFonts.plusJakartaSans(
+                    fontSize: 12, color: AppTheme.textGrey)),
             const SizedBox(height: 4),
-            Text('Database: MySQL Laragon (db_workshop)', style: GoogleFonts.plusJakartaSans(fontSize: 11, color: AppTheme.primaryPink)),
+            Text('Database: MySQL Laragon (db_workshop)',
+                style: GoogleFonts.plusJakartaSans(
+                    fontSize: 11, color: AppTheme.primaryPink)),
           ],
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
-            child: Text('Selesai', style: GoogleFonts.plusJakartaSans(color: AppTheme.primaryPink, fontWeight: FontWeight.bold)),
+            child: Text('Selesai',
+                style: GoogleFonts.plusJakartaSans(
+                    color: AppTheme.primaryPink, fontWeight: FontWeight.bold)),
           ),
         ],
       ),
@@ -163,7 +191,8 @@ class FigmaScaffold extends StatelessWidget {
               color: AppTheme.headerPink,
               child: SafeArea(
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -181,15 +210,18 @@ class FigmaScaffold extends StatelessWidget {
                                       color: Colors.white.withOpacity(0.25),
                                       shape: BoxShape.circle,
                                     ),
-                                    child: const Icon(Icons.chevron_left, color: Colors.white, size: 24),
+                                    child: const Icon(Icons.chevron_left,
+                                        color: Colors.white, size: 24),
                                   ),
                                 )
                               : const SizedBox(width: 34),
                           Row(
                             children: [
                               IconButton(
-                                icon: const Icon(Icons.notifications_none, color: Colors.white, size: 24),
-                                onPressed: () => _showNotificationDialog(context),
+                                icon: const Icon(Icons.notifications_none,
+                                    color: Colors.white, size: 24),
+                                onPressed: () =>
+                                    _showNotificationDialog(context),
                               ),
                               GestureDetector(
                                 onTap: () => _showProfileDialog(context),
@@ -200,7 +232,8 @@ class FigmaScaffold extends StatelessWidget {
                                     color: Colors.white,
                                     shape: BoxShape.circle,
                                   ),
-                                  child: const Icon(Icons.person, color: AppTheme.headerPink, size: 18),
+                                  child: const Icon(Icons.person,
+                                      color: AppTheme.headerPink, size: 18),
                                 ),
                               ),
                             ],
@@ -292,15 +325,21 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             IconButton(
-              icon: Icon(Icons.home, color: _navIndex == 0 ? Colors.white : Colors.white60, size: 28),
+              icon: Icon(Icons.home,
+                  color: _navIndex == 0 ? Colors.white : Colors.white60,
+                  size: 28),
               onPressed: () => _pindahKeTab(0),
             ),
             IconButton(
-              icon: Icon(Icons.description_outlined, color: _navIndex == 1 ? Colors.white : Colors.white60, size: 26),
+              icon: Icon(Icons.description_outlined,
+                  color: _navIndex == 1 ? Colors.white : Colors.white60,
+                  size: 26),
               onPressed: () => _pindahKeTab(1),
             ),
             IconButton(
-              icon: Icon(Icons.person_outline, color: _navIndex == 2 ? Colors.white : Colors.white60, size: 26),
+              icon: Icon(Icons.person_outline,
+                  color: _navIndex == 2 ? Colors.white : Colors.white60,
+                  size: 26),
               onPressed: () => _pindahKeTab(2),
             ),
           ],
@@ -375,24 +414,32 @@ class _HomeScreenContentState extends State<HomeScreenContent> {
                     color: const Color(0xFFF1F3F6),
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  child: const Icon(Icons.person, color: AppTheme.primaryPink, size: 28),
+                  child: const Icon(Icons.person,
+                      color: AppTheme.primaryPink, size: 28),
                 ),
                 const SizedBox(width: 14),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Selamat datang,', style: GoogleFonts.plusJakartaSans(fontSize: 12, color: AppTheme.textGrey)),
+                    Text('Selamat datang,',
+                        style: GoogleFonts.plusJakartaSans(
+                            fontSize: 12, color: AppTheme.textGrey)),
                     const SizedBox(height: 2),
-                    Text('Revitaaa', style: GoogleFonts.plusJakartaSans(fontSize: 17, fontWeight: FontWeight.bold, color: AppTheme.textDark)),
+                    Text('Revitaaa',
+                        style: GoogleFonts.plusJakartaSans(
+                            fontSize: 17,
+                            fontWeight: FontWeight.bold,
+                            color: AppTheme.textDark)),
                     const SizedBox(height: 2),
-                    Text('Pengguna', style: GoogleFonts.plusJakartaSans(fontSize: 11, color: AppTheme.textGrey)),
+                    Text('Pengguna',
+                        style: GoogleFonts.plusJakartaSans(
+                            fontSize: 11, color: AppTheme.textGrey)),
                   ],
                 ),
               ],
             ),
           ),
           const SizedBox(height: 16),
-
           InkWell(
             onTap: () async {
               final hasil = await Navigator.push(
@@ -419,16 +466,23 @@ class _HomeScreenContentState extends State<HomeScreenContent> {
                       color: const Color(0xFFFFEEF2),
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    child: const Icon(Icons.assignment_outlined, color: AppTheme.primaryPink, size: 22),
+                    child: const Icon(Icons.assignment_outlined,
+                        color: AppTheme.primaryPink, size: 22),
                   ),
                   const SizedBox(width: 14),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Buat Laporan', style: GoogleFonts.plusJakartaSans(fontWeight: FontWeight.bold, fontSize: 14, color: AppTheme.textDark)),
+                        Text('Buat Laporan',
+                            style: GoogleFonts.plusJakartaSans(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 14,
+                                color: AppTheme.textDark)),
                         const SizedBox(height: 2),
-                        Text('Laporkan kejadian dengan aman', style: GoogleFonts.plusJakartaSans(fontSize: 11, color: AppTheme.textGrey)),
+                        Text('Laporkan kejadian dengan aman',
+                            style: GoogleFonts.plusJakartaSans(
+                                fontSize: 11, color: AppTheme.textGrey)),
                       ],
                     ),
                   ),
@@ -438,43 +492,54 @@ class _HomeScreenContentState extends State<HomeScreenContent> {
             ),
           ),
           const SizedBox(height: 24),
-
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
                 'Status Laporan Terakhir',
-                style: GoogleFonts.plusJakartaSans(fontSize: 14, fontWeight: FontWeight.bold, color: AppTheme.textDark),
+                style: GoogleFonts.plusJakartaSans(
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                    color: AppTheme.textDark),
               ),
               IconButton(
                 padding: EdgeInsets.zero,
                 constraints: const BoxConstraints(),
-                icon: const Icon(Icons.refresh, size: 20, color: AppTheme.primaryPink),
+                icon: const Icon(Icons.refresh,
+                    size: 20, color: AppTheme.primaryPink),
                 onPressed: _ambilLaporanTerakhir,
               ),
             ],
           ),
           const SizedBox(height: 12),
-
           _isLoading
-              ? const Center(child: Padding(padding: EdgeInsets.all(16), child: CircularProgressIndicator(color: AppTheme.primaryPink)))
+              ? const Center(
+                  child: Padding(
+                      padding: EdgeInsets.all(16),
+                      child: CircularProgressIndicator(
+                          color: AppTheme.primaryPink)))
               : _laporanTerakhir == null
                   ? Container(
-                      padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 24, horizontal: 16),
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(16),
                         border: Border.all(color: const Color(0xFFF0F0F2)),
                       ),
                       child: Center(
-                        child: Text('Belum ada laporan aktif', style: GoogleFonts.plusJakartaSans(fontSize: 12, color: AppTheme.textGrey)),
+                        child: Text('Belum ada laporan aktif',
+                            style: GoogleFonts.plusJakartaSans(
+                                fontSize: 12, color: AppTheme.textGrey)),
                       ),
                     )
                   : InkWell(
                       onTap: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (_) => ProgressLaporanScreen(laporan: _laporanTerakhir!)),
+                          MaterialPageRoute(
+                              builder: (_) => ProgressLaporanScreen(
+                                  laporan: _laporanTerakhir!)),
                         );
                       },
                       child: Container(
@@ -490,25 +555,37 @@ class _HomeScreenContentState extends State<HomeScreenContent> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text('LAP-${_laporanTerakhir!['id_laporan']}', style: GoogleFonts.plusJakartaSans(fontWeight: FontWeight.bold, fontSize: 14, color: AppTheme.primaryPink)),
+                                Text('LAP-${_laporanTerakhir!['id_laporan']}',
+                                    style: GoogleFonts.plusJakartaSans(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 14,
+                                        color: AppTheme.primaryPink)),
                                 Text(
                                   _laporanTerakhir!['tanggal_lapor'] != null
-                                      ? _laporanTerakhir!['tanggal_lapor'].toString().substring(0, 10)
+                                      ? _laporanTerakhir!['tanggal_lapor']
+                                          .toString()
+                                          .substring(0, 10)
                                       : '12 Mei 2025',
-                                  style: GoogleFonts.plusJakartaSans(fontSize: 11, color: AppTheme.textGrey),
+                                  style: GoogleFonts.plusJakartaSans(
+                                      fontSize: 11, color: AppTheme.textGrey),
                                 ),
                               ],
                             ),
                             const SizedBox(height: 10),
                             Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 5),
                               decoration: BoxDecoration(
                                 color: AppTheme.badgeYellowBg,
                                 borderRadius: BorderRadius.circular(8),
                               ),
                               child: Text(
-                                _laporanTerakhir!['status_penanganan'] ?? 'Menunggu Verifikasi',
-                                style: GoogleFonts.plusJakartaSans(color: AppTheme.badgeYellowText, fontSize: 11, fontWeight: FontWeight.w600),
+                                _laporanTerakhir!['status_penanganan'] ??
+                                    'Menunggu Verifikasi',
+                                style: GoogleFonts.plusJakartaSans(
+                                    color: AppTheme.badgeYellowText,
+                                    fontSize: 11,
+                                    fontWeight: FontWeight.w600),
                               ),
                             ),
                           ],
@@ -516,7 +593,6 @@ class _HomeScreenContentState extends State<HomeScreenContent> {
                       ),
                     ),
           const SizedBox(height: 20),
-
           Row(
             children: [
               Expanded(
@@ -532,9 +608,14 @@ class _HomeScreenContentState extends State<HomeScreenContent> {
                     ),
                     child: Column(
                       children: [
-                        const Icon(Icons.history, color: AppTheme.primaryPink, size: 24),
+                        const Icon(Icons.history,
+                            color: AppTheme.primaryPink, size: 24),
                         const SizedBox(height: 8),
-                        Text('Riwayat Laporan', style: GoogleFonts.plusJakartaSans(fontSize: 12, fontWeight: FontWeight.w600, color: AppTheme.textDark)),
+                        Text('Riwayat Laporan',
+                            style: GoogleFonts.plusJakartaSans(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w600,
+                                color: AppTheme.textDark)),
                       ],
                     ),
                   ),
@@ -559,9 +640,14 @@ class _HomeScreenContentState extends State<HomeScreenContent> {
                     ),
                     child: Column(
                       children: [
-                        const Icon(Icons.menu_book_outlined, color: AppTheme.primaryPink, size: 24),
+                        const Icon(Icons.menu_book_outlined,
+                            color: AppTheme.primaryPink, size: 24),
                         const SizedBox(height: 8),
-                        Text('Informasi & Edukasi', style: GoogleFonts.plusJakartaSans(fontSize: 12, fontWeight: FontWeight.w600, color: AppTheme.textDark)),
+                        Text('Informasi & Edukasi',
+                            style: GoogleFonts.plusJakartaSans(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w600,
+                                color: AppTheme.textDark)),
                       ],
                     ),
                   ),
@@ -616,7 +702,8 @@ class _RiwayatScreenContentState extends State<RiwayatScreenContent> {
     });
   }
 
-  Future<void> _updateLaporan(int id, String kategoriBaru, String lokasiBaru, String kronologiBaru) async {
+  Future<void> _updateLaporan(int id, String kategoriBaru, String lokasiBaru,
+      String kronologiBaru) async {
     final payload = {
       'id_laporan': id,
       'kategori': kategoriBaru,
@@ -639,14 +726,17 @@ class _RiwayatScreenContentState extends State<RiwayatScreenContent> {
 
   void _dialogEdit(Map<String, dynamic> item) {
     String kategori = item['kategori'] ?? 'Kekerasan terhadap Perempuan';
-    final lokasiCtrl = TextEditingController(text: item['lokasi_kejadian'] ?? '');
+    final lokasiCtrl =
+        TextEditingController(text: item['lokasi_kejadian'] ?? '');
     final kronologiCtrl = TextEditingController(text: item['kronologi'] ?? '');
 
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        title: Text('Edit Data Laporan', style: GoogleFonts.plusJakartaSans(fontSize: 16, fontWeight: FontWeight.bold)),
+        title: Text('Edit Data Laporan',
+            style: GoogleFonts.plusJakartaSans(
+                fontSize: 16, fontWeight: FontWeight.bold)),
         content: SingleChildScrollView(
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -657,41 +747,59 @@ class _RiwayatScreenContentState extends State<RiwayatScreenContent> {
                   'Kekerasan terhadap Anak',
                   'Pelecehan Seksual',
                   'Kekerasan Dalam Rumah Tangga (KDRT)'
-                ].contains(kategori) ? kategori : 'Kekerasan terhadap Perempuan',
+                ].contains(kategori)
+                    ? kategori
+                    : 'Kekerasan terhadap Perempuan',
                 items: [
                   'Kekerasan terhadap Perempuan',
                   'Kekerasan terhadap Anak',
                   'Pelecehan Seksual',
                   'Kekerasan Dalam Rumah Tangga (KDRT)'
-                ].map((k) => DropdownMenuItem(value: k, child: Text(k, style: GoogleFonts.plusJakartaSans(fontSize: 12)))).toList(),
+                ]
+                    .map((k) => DropdownMenuItem(
+                        value: k,
+                        child: Text(k,
+                            style: GoogleFonts.plusJakartaSans(fontSize: 12))))
+                    .toList(),
                 onChanged: (v) => kategori = v!,
-                decoration: const InputDecoration(labelText: 'Kategori', contentPadding: EdgeInsets.symmetric(horizontal: 10)),
+                decoration: const InputDecoration(
+                    labelText: 'Kategori',
+                    contentPadding: EdgeInsets.symmetric(horizontal: 10)),
               ),
               const SizedBox(height: 10),
               TextField(
                 controller: lokasiCtrl,
                 style: GoogleFonts.plusJakartaSans(fontSize: 13),
-                decoration: const InputDecoration(labelText: 'Lokasi Kejadian', contentPadding: EdgeInsets.symmetric(horizontal: 10)),
+                decoration: const InputDecoration(
+                    labelText: 'Lokasi Kejadian',
+                    contentPadding: EdgeInsets.symmetric(horizontal: 10)),
               ),
               const SizedBox(height: 10),
               TextField(
                 controller: kronologiCtrl,
                 maxLines: 3,
                 style: GoogleFonts.plusJakartaSans(fontSize: 13),
-                decoration: const InputDecoration(labelText: 'Kronologi Kejadian', contentPadding: EdgeInsets.all(10)),
+                decoration: const InputDecoration(
+                    labelText: 'Kronologi Kejadian',
+                    contentPadding: EdgeInsets.all(10)),
               ),
             ],
           ),
         ),
         actions: [
-          TextButton(onPressed: () => Navigator.pop(ctx), child: Text('Batal', style: GoogleFonts.plusJakartaSans())),
+          TextButton(
+              onPressed: () => Navigator.pop(ctx),
+              child: Text('Batal', style: GoogleFonts.plusJakartaSans())),
           ElevatedButton(
-            style: ElevatedButton.styleFrom(backgroundColor: AppTheme.primaryPink),
+            style:
+                ElevatedButton.styleFrom(backgroundColor: AppTheme.primaryPink),
             onPressed: () {
               Navigator.pop(ctx);
-              _updateLaporan(int.parse(item['id_laporan'].toString()), kategori, lokasiCtrl.text, kronologiCtrl.text);
+              _updateLaporan(int.parse(item['id_laporan'].toString()), kategori,
+                  lokasiCtrl.text, kronologiCtrl.text);
             },
-            child: Text('Simpan Perubahan', style: GoogleFonts.plusJakartaSans(color: Colors.white)),
+            child: Text('Simpan Perubahan',
+                style: GoogleFonts.plusJakartaSans(color: Colors.white)),
           ),
         ],
       ),
@@ -710,22 +818,28 @@ class _RiwayatScreenContentState extends State<RiwayatScreenContent> {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
         child: _isLoading
-            ? const Center(child: CircularProgressIndicator(color: AppTheme.primaryPink))
+            ? const Center(
+                child: CircularProgressIndicator(color: AppTheme.primaryPink))
             : _listLaporan.isEmpty
                 ? Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(Icons.description_outlined, size: 48, color: Colors.grey.shade400),
+                        Icon(Icons.description_outlined,
+                            size: 48, color: Colors.grey.shade400),
                         const SizedBox(height: 12),
                         Text(
                           'Belum ada riwayat laporan.',
-                          style: GoogleFonts.plusJakartaSans(fontSize: 13, color: AppTheme.textGrey, fontWeight: FontWeight.w500),
+                          style: GoogleFonts.plusJakartaSans(
+                              fontSize: 13,
+                              color: AppTheme.textGrey,
+                              fontWeight: FontWeight.w500),
                         ),
                         const SizedBox(height: 4),
                         Text(
                           'Laporan yang Anda kirim akan otomatis muncul di sini.',
-                          style: GoogleFonts.plusJakartaSans(fontSize: 11, color: AppTheme.textGrey),
+                          style: GoogleFonts.plusJakartaSans(
+                              fontSize: 11, color: AppTheme.textGrey),
                         ),
                       ],
                     ),
@@ -762,42 +876,65 @@ class _RiwayatScreenContentState extends State<RiwayatScreenContent> {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (_) => DetailLaporanScreen(laporan: item),
+                                      builder: (_) =>
+                                          DetailLaporanScreen(laporan: item),
                                     ),
                                   );
                                 },
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text('LAP-${item['id_laporan']}', style: GoogleFonts.plusJakartaSans(fontWeight: FontWeight.bold, fontSize: 13, color: AppTheme.primaryPink)),
+                                    Text('LAP-${item['id_laporan']}',
+                                        style: GoogleFonts.plusJakartaSans(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 13,
+                                            color: AppTheme.primaryPink)),
                                     const SizedBox(height: 3),
-                                    Text(item['kategori'] ?? '', style: GoogleFonts.plusJakartaSans(fontWeight: FontWeight.w600, fontSize: 12)),
+                                    Text(item['kategori'] ?? '',
+                                        style: GoogleFonts.plusJakartaSans(
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 12)),
                                     const SizedBox(height: 2),
                                     Text(
-                                      item['tanggal_lapor'] != null ? item['tanggal_lapor'].toString().substring(0, 10) : '12 Mei 2025',
-                                      style: GoogleFonts.plusJakartaSans(fontSize: 10, color: AppTheme.textGrey),
+                                      item['tanggal_lapor'] != null
+                                          ? item['tanggal_lapor']
+                                              .toString()
+                                              .substring(0, 10)
+                                          : '12 Mei 2025',
+                                      style: GoogleFonts.plusJakartaSans(
+                                          fontSize: 10,
+                                          color: AppTheme.textGrey),
                                     ),
                                   ],
                                 ),
                               ),
                             ),
                             Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 8, vertical: 4),
                               decoration: BoxDecoration(
                                 color: badgeBg,
                                 borderRadius: BorderRadius.circular(6),
                               ),
-                              child: Text(status, style: GoogleFonts.plusJakartaSans(color: badgeText, fontSize: 10, fontWeight: FontWeight.bold)),
+                              child: Text(status,
+                                  style: GoogleFonts.plusJakartaSans(
+                                      color: badgeText,
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.bold)),
                             ),
                             IconButton(
-                              icon: const Icon(Icons.edit_outlined, color: Colors.amber, size: 20),
+                              icon: const Icon(Icons.edit_outlined,
+                                  color: Colors.amber, size: 20),
                               onPressed: () => _dialogEdit(item),
                             ),
                             IconButton(
-                              icon: const Icon(Icons.delete_outline, color: Colors.red, size: 20),
-                              onPressed: () => _hapusLaporan(int.parse(item['id_laporan'].toString())),
+                              icon: const Icon(Icons.delete_outline,
+                                  color: Colors.red, size: 20),
+                              onPressed: () => _hapusLaporan(
+                                  int.parse(item['id_laporan'].toString())),
                             ),
-                            const Icon(Icons.chevron_right, color: AppTheme.textGrey, size: 20),
+                            const Icon(Icons.chevron_right,
+                                color: AppTheme.textGrey, size: 20),
                           ],
                         ),
                       );
@@ -821,8 +958,10 @@ class FormStep1Screen extends StatefulWidget {
 class _FormStep1ScreenState extends State<FormStep1Screen> {
   String _kategori = 'Kekerasan terhadap Perempuan';
   String _sebagai = 'Korban';
-  final TextEditingController _lokasiController = TextEditingController(text: 'Jember');
-  final TextEditingController _tanggalController = TextEditingController(text: '12 Mei 2025');
+  final TextEditingController _lokasiController =
+      TextEditingController(text: 'Jember');
+  final TextEditingController _tanggalController =
+      TextEditingController(text: '12 Mei 2025');
   final TextEditingController _penjelasanController = TextEditingController();
 
   final List<String> _listKategori = [
@@ -848,34 +987,44 @@ class _FormStep1ScreenState extends State<FormStep1Screen> {
               isExpanded: true,
               value: _kategori,
               underline: const SizedBox(),
-              icon: const Icon(Icons.keyboard_arrow_down, color: AppTheme.textGrey),
-              items: _listKategori.map((k) => DropdownMenuItem(value: k, child: Text(k, style: GoogleFonts.plusJakartaSans(fontSize: 13)))).toList(),
+              icon: const Icon(Icons.keyboard_arrow_down,
+                  color: AppTheme.textGrey),
+              items: _listKategori
+                  .map((k) => DropdownMenuItem(
+                      value: k,
+                      child: Text(k,
+                          style: GoogleFonts.plusJakartaSans(fontSize: 13))))
+                  .toList(),
               onChanged: (v) => setState(() => _kategori = v!),
             ),
           ),
           const SizedBox(height: 14),
-
           _buildFieldLabel('Sebagai'),
           _buildDropdownContainer(
             DropdownButton<String>(
               isExpanded: true,
               value: _sebagai,
               underline: const SizedBox(),
-              icon: const Icon(Icons.keyboard_arrow_down, color: AppTheme.textGrey),
-              items: _listSebagai.map((s) => DropdownMenuItem(value: s, child: Text(s, style: GoogleFonts.plusJakartaSans(fontSize: 13)))).toList(),
+              icon: const Icon(Icons.keyboard_arrow_down,
+                  color: AppTheme.textGrey),
+              items: _listSebagai
+                  .map((s) => DropdownMenuItem(
+                      value: s,
+                      child: Text(s,
+                          style: GoogleFonts.plusJakartaSans(fontSize: 13))))
+                  .toList(),
               onChanged: (v) => setState(() => _sebagai = v!),
             ),
           ),
           const SizedBox(height: 14),
-
           _buildFieldLabel('Lokasi Kejadian'),
-          _buildInputBox(_lokasiController, 'Pilih lokasi', Icons.location_on_outlined),
+          _buildInputBox(
+              _lokasiController, 'Pilih lokasi', Icons.location_on_outlined),
           const SizedBox(height: 14),
-
           _buildFieldLabel('Tanggal Kejadian'),
-          _buildInputBox(_tanggalController, 'Pilih tanggal', Icons.calendar_today_outlined),
+          _buildInputBox(_tanggalController, 'Pilih tanggal',
+              Icons.calendar_today_outlined),
           const SizedBox(height: 14),
-
           _buildFieldLabel('Penjelasan Kejadian'),
           Container(
             decoration: BoxDecoration(
@@ -889,21 +1038,22 @@ class _FormStep1ScreenState extends State<FormStep1Screen> {
               style: GoogleFonts.plusJakartaSans(fontSize: 13),
               decoration: InputDecoration(
                 hintText: 'Jelaskan kronologi kejadian...',
-                hintStyle: GoogleFonts.plusJakartaSans(fontSize: 12, color: AppTheme.textGrey),
+                hintStyle: GoogleFonts.plusJakartaSans(
+                    fontSize: 12, color: AppTheme.textGrey),
                 border: InputBorder.none,
                 contentPadding: const EdgeInsets.all(12),
               ),
             ),
           ),
           const SizedBox(height: 24),
-
           SizedBox(
             width: double.infinity,
             height: 46,
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppTheme.primaryPink,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12)),
                 elevation: 0,
               ),
               onPressed: () async {
@@ -915,7 +1065,9 @@ class _FormStep1ScreenState extends State<FormStep1Screen> {
                       sebagai: _sebagai,
                       lokasi: _lokasiController.text,
                       tanggal: _tanggalController.text,
-                      penjelasan: _penjelasanController.text.isNotEmpty ? _penjelasanController.text : 'Saya mengalami tindakan kekerasan oleh seseorang di tempat umum...',
+                      penjelasan: _penjelasanController.text.isNotEmpty
+                          ? _penjelasanController.text
+                          : 'Saya mengalami tindakan kekerasan oleh seseorang di tempat umum...',
                     ),
                   ),
                 );
@@ -923,7 +1075,11 @@ class _FormStep1ScreenState extends State<FormStep1Screen> {
                   Navigator.pop(context, true);
                 }
               },
-              child: Text('Lanjut', style: GoogleFonts.plusJakartaSans(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14)),
+              child: Text('Lanjut',
+                  style: GoogleFonts.plusJakartaSans(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14)),
             ),
           ),
           const SizedBox(height: 20),
@@ -935,7 +1091,11 @@ class _FormStep1ScreenState extends State<FormStep1Screen> {
   Widget _buildFieldLabel(String label) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 6),
-      child: Text(label, style: GoogleFonts.plusJakartaSans(fontSize: 13, fontWeight: FontWeight.w600, color: AppTheme.textDark)),
+      child: Text(label,
+          style: GoogleFonts.plusJakartaSans(
+              fontSize: 13,
+              fontWeight: FontWeight.w600,
+              color: AppTheme.textDark)),
     );
   }
 
@@ -951,7 +1111,8 @@ class _FormStep1ScreenState extends State<FormStep1Screen> {
     );
   }
 
-  Widget _buildInputBox(TextEditingController ctrl, String hint, IconData icon) {
+  Widget _buildInputBox(
+      TextEditingController ctrl, String hint, IconData icon) {
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -1015,23 +1176,35 @@ class _FormStep2UploadScreenState extends State<FormStep2UploadScreen> {
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: AppTheme.primaryPink.withOpacity(0.6), width: 1.5),
+                border: Border.all(
+                    color: AppTheme.primaryPink.withOpacity(0.6), width: 1.5),
               ),
               child: Column(
                 children: [
-                  const Icon(Icons.cloud_upload_outlined, color: AppTheme.primaryPink, size: 40),
+                  const Icon(Icons.cloud_upload_outlined,
+                      color: AppTheme.primaryPink, size: 40),
                   const SizedBox(height: 10),
-                  Text('Pilih gambar atau dokumen', style: GoogleFonts.plusJakartaSans(fontWeight: FontWeight.bold, fontSize: 13, color: AppTheme.textDark)),
+                  Text('Pilih gambar atau dokumen',
+                      style: GoogleFonts.plusJakartaSans(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 13,
+                          color: AppTheme.textDark)),
                   const SizedBox(height: 3),
-                  Text('(JPG, PNG, PDF)', style: GoogleFonts.plusJakartaSans(fontSize: 11, color: AppTheme.textGrey)),
+                  Text('(JPG, PNG, PDF)',
+                      style: GoogleFonts.plusJakartaSans(
+                          fontSize: 11, color: AppTheme.textGrey)),
                   const SizedBox(height: 2),
-                  Text('Maks. 10 MB', style: GoogleFonts.plusJakartaSans(fontSize: 10, color: AppTheme.textGrey)),
+                  Text('Maks. 10 MB',
+                      style: GoogleFonts.plusJakartaSans(
+                          fontSize: 10, color: AppTheme.textGrey)),
                   const SizedBox(height: 12),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppTheme.primaryPink,
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8)),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 8),
                       elevation: 0,
                     ),
                     onPressed: () {
@@ -1040,53 +1213,67 @@ class _FormStep2UploadScreenState extends State<FormStep2UploadScreen> {
                         fileSize = '2.4 MB';
                       });
                     },
-                    child: Text('Pilih File', style: GoogleFonts.plusJakartaSans(color: Colors.white, fontSize: 12, fontWeight: FontWeight.bold)),
+                    child: Text('Pilih File',
+                        style: GoogleFonts.plusJakartaSans(
+                            color: Colors.white,
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold)),
                   ),
                 ],
               ),
             ),
             const SizedBox(height: 22),
-
-            Text('File yang diunggah', style: GoogleFonts.plusJakartaSans(fontSize: 13, fontWeight: FontWeight.bold, color: AppTheme.textDark)),
+            Text('File yang diunggah',
+                style: GoogleFonts.plusJakartaSans(
+                    fontSize: 13,
+                    fontWeight: FontWeight.bold,
+                    color: AppTheme.textDark)),
             const SizedBox(height: 10),
-
             if (uploadedFileName != null)
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
                 decoration: BoxDecoration(
                   color: const Color(0xFFF7F8FA),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Row(
                   children: [
-                    const Icon(Icons.insert_drive_file_outlined, color: AppTheme.textDark, size: 22),
+                    const Icon(Icons.insert_drive_file_outlined,
+                        color: AppTheme.textDark, size: 22),
                     const SizedBox(width: 10),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(uploadedFileName!, style: GoogleFonts.plusJakartaSans(fontSize: 12, fontWeight: FontWeight.bold, color: AppTheme.textDark)),
-                          Text(fileSize, style: GoogleFonts.plusJakartaSans(fontSize: 10, color: AppTheme.textGrey)),
+                          Text(uploadedFileName!,
+                              style: GoogleFonts.plusJakartaSans(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.bold,
+                                  color: AppTheme.textDark)),
+                          Text(fileSize,
+                              style: GoogleFonts.plusJakartaSans(
+                                  fontSize: 10, color: AppTheme.textGrey)),
                         ],
                       ),
                     ),
                     GestureDetector(
                       onTap: () => setState(() => uploadedFileName = null),
-                      child: const Icon(Icons.close, size: 18, color: AppTheme.textGrey),
+                      child: const Icon(Icons.close,
+                          size: 18, color: AppTheme.textGrey),
                     ),
                   ],
                 ),
               ),
-
             const Spacer(),
-
             SizedBox(
               width: double.infinity,
               height: 46,
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppTheme.primaryPink,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12)),
                   elevation: 0,
                 ),
                 onPressed: () async {
@@ -1106,7 +1293,11 @@ class _FormStep2UploadScreenState extends State<FormStep2UploadScreen> {
                     Navigator.pop(context, true);
                   }
                 },
-                child: Text('Lanjut', style: GoogleFonts.plusJakartaSans(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14)),
+                child: Text('Lanjut',
+                    style: GoogleFonts.plusJakartaSans(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 14)),
               ),
             ),
             const SizedBox(height: 20),
@@ -1209,31 +1400,38 @@ class _ConfirmationScreenState extends State<ConfirmationScreen> {
                       color: AppTheme.primaryPink,
                       shape: BoxShape.circle,
                     ),
-                    child: const Icon(Icons.assignment_turned_in_outlined, color: Colors.white, size: 24),
+                    child: const Icon(Icons.assignment_turned_in_outlined,
+                        color: Colors.white, size: 24),
                   ),
                   const SizedBox(height: 12),
                   Text(
                     'Apakah Anda yakin ingin\nmengirim laporan ini?',
                     textAlign: TextAlign.center,
-                    style: GoogleFonts.plusJakartaSans(fontSize: 14, fontWeight: FontWeight.bold, color: AppTheme.textDark),
+                    style: GoogleFonts.plusJakartaSans(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        color: AppTheme.textDark),
                   ),
                   const SizedBox(height: 4),
                   Text(
                     'Pastikan semua data sudah benar sebelum dikirim.',
                     textAlign: TextAlign.center,
-                    style: GoogleFonts.plusJakartaSans(fontSize: 11, color: AppTheme.textGrey),
+                    style: GoogleFonts.plusJakartaSans(
+                        fontSize: 11, color: AppTheme.textGrey),
                   ),
                 ],
               ),
             ),
             const SizedBox(height: 16),
-
             Align(
               alignment: Alignment.centerLeft,
-              child: Text('Data Laporan', style: GoogleFonts.plusJakartaSans(fontSize: 13, fontWeight: FontWeight.bold, color: AppTheme.textDark)),
+              child: Text('Data Laporan',
+                  style: GoogleFonts.plusJakartaSans(
+                      fontSize: 13,
+                      fontWeight: FontWeight.bold,
+                      color: AppTheme.textDark)),
             ),
             const SizedBox(height: 8),
-
             Container(
               padding: const EdgeInsets.all(14),
               decoration: BoxDecoration(
@@ -1251,9 +1449,7 @@ class _ConfirmationScreenState extends State<ConfirmationScreen> {
                 ],
               ),
             ),
-
             const Spacer(),
-
             Row(
               children: [
                 Expanded(
@@ -1262,10 +1458,14 @@ class _ConfirmationScreenState extends State<ConfirmationScreen> {
                     child: OutlinedButton(
                       style: OutlinedButton.styleFrom(
                         side: const BorderSide(color: AppTheme.primaryPink),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10)),
                       ),
                       onPressed: () => Navigator.pop(context),
-                      child: Text('Batal', style: GoogleFonts.plusJakartaSans(color: AppTheme.primaryPink, fontWeight: FontWeight.bold)),
+                      child: Text('Batal',
+                          style: GoogleFonts.plusJakartaSans(
+                              color: AppTheme.primaryPink,
+                              fontWeight: FontWeight.bold)),
                     ),
                   ),
                 ),
@@ -1276,13 +1476,21 @@ class _ConfirmationScreenState extends State<ConfirmationScreen> {
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppTheme.primaryPink,
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10)),
                         elevation: 0,
                       ),
                       onPressed: _isLoading ? null : _kirimLaporan,
                       child: _isLoading
-                          ? const SizedBox(width: 20, height: 20, child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2))
-                          : Text('Kirim', style: GoogleFonts.plusJakartaSans(color: Colors.white, fontWeight: FontWeight.bold)),
+                          ? const SizedBox(
+                              width: 20,
+                              height: 20,
+                              child: CircularProgressIndicator(
+                                  color: Colors.white, strokeWidth: 2))
+                          : Text('Kirim',
+                              style: GoogleFonts.plusJakartaSans(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold)),
                     ),
                   ),
                 ),
@@ -1301,13 +1509,20 @@ class _ConfirmationScreenState extends State<ConfirmationScreen> {
       children: [
         SizedBox(
           width: 70,
-          child: Text(label, style: GoogleFonts.plusJakartaSans(fontSize: 12, color: AppTheme.textGrey)),
+          child: Text(label,
+              style: GoogleFonts.plusJakartaSans(
+                  fontSize: 12, color: AppTheme.textGrey)),
         ),
-        Text(': ', style: GoogleFonts.plusJakartaSans(fontSize: 12, color: AppTheme.textGrey)),
+        Text(': ',
+            style: GoogleFonts.plusJakartaSans(
+                fontSize: 12, color: AppTheme.textGrey)),
         Expanded(
           child: Text(
             value,
-            style: GoogleFonts.plusJakartaSans(fontSize: 12, fontWeight: FontWeight.w600, color: AppTheme.textDark),
+            style: GoogleFonts.plusJakartaSans(
+                fontSize: 12,
+                fontWeight: FontWeight.w600,
+                color: AppTheme.textDark),
           ),
         ),
       ],
@@ -1338,7 +1553,8 @@ class SuccessSubmitScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return FigmaScaffold(
       showBackButton: true,
-      onBack: () => Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const MainNavigationScreen())),
+      onBack: () => Navigator.pushReplacement(context,
+          MaterialPageRoute(builder: (_) => const MainNavigationScreen())),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
         child: Column(
@@ -1356,16 +1572,19 @@ class SuccessSubmitScreen extends StatelessWidget {
             const SizedBox(height: 18),
             Text(
               'Laporan Berhasil Dikirim',
-              style: GoogleFonts.plusJakartaSans(fontSize: 16, fontWeight: FontWeight.bold, color: AppTheme.successGreen),
+              style: GoogleFonts.plusJakartaSans(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: AppTheme.successGreen),
             ),
             const SizedBox(height: 6),
             Text(
               'Laporan Anda telah diterima dan akan diverifikasi oleh petugas.',
               textAlign: TextAlign.center,
-              style: GoogleFonts.plusJakartaSans(fontSize: 12, color: AppTheme.textGrey),
+              style: GoogleFonts.plusJakartaSans(
+                  fontSize: 12, color: AppTheme.textGrey),
             ),
             const SizedBox(height: 24),
-
             Container(
               width: double.infinity,
               padding: const EdgeInsets.symmetric(vertical: 18),
@@ -1375,22 +1594,29 @@ class SuccessSubmitScreen extends StatelessWidget {
               ),
               child: Column(
                 children: [
-                  Text('NOMOR LAPORAN', style: GoogleFonts.plusJakartaSans(fontSize: 11, fontWeight: FontWeight.bold, color: AppTheme.textGrey)),
+                  Text('NOMOR LAPORAN',
+                      style: GoogleFonts.plusJakartaSans(
+                          fontSize: 11,
+                          fontWeight: FontWeight.bold,
+                          color: AppTheme.textGrey)),
                   const SizedBox(height: 4),
-                  Text(nomorLaporan, style: GoogleFonts.plusJakartaSans(fontSize: 16, fontWeight: FontWeight.bold, color: AppTheme.primaryPink)),
+                  Text(nomorLaporan,
+                      style: GoogleFonts.plusJakartaSans(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: AppTheme.primaryPink)),
                 ],
               ),
             ),
-
             const Spacer(),
-
             SizedBox(
               width: double.infinity,
               height: 44,
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppTheme.primaryPink,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10)),
                   elevation: 0,
                 ),
                 onPressed: () {
@@ -1408,21 +1634,29 @@ class SuccessSubmitScreen extends StatelessWidget {
                     ),
                   );
                 },
-                child: Text('Lihat Status Laporan', style: GoogleFonts.plusJakartaSans(color: Colors.white, fontWeight: FontWeight.bold)),
+                child: Text('Lihat Status Laporan',
+                    style: GoogleFonts.plusJakartaSans(
+                        color: Colors.white, fontWeight: FontWeight.bold)),
               ),
             ),
             const SizedBox(height: 10),
-
             SizedBox(
               width: double.infinity,
               height: 44,
               child: OutlinedButton(
                 style: OutlinedButton.styleFrom(
                   side: const BorderSide(color: AppTheme.primaryPink),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10)),
                 ),
-                onPressed: () => Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const MainNavigationScreen())),
-                child: Text('Kembali ke Beranda', style: GoogleFonts.plusJakartaSans(color: AppTheme.primaryPink, fontWeight: FontWeight.bold)),
+                onPressed: () => Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: (_) => const MainNavigationScreen())),
+                child: Text('Kembali ke Beranda',
+                    style: GoogleFonts.plusJakartaSans(
+                        color: AppTheme.primaryPink,
+                        fontWeight: FontWeight.bold)),
               ),
             ),
             const SizedBox(height: 16),
@@ -1449,9 +1683,12 @@ class ProgressLaporanScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Progres Laporan Anda', style: GoogleFonts.plusJakartaSans(fontSize: 15, fontWeight: FontWeight.bold, color: AppTheme.primaryPink)),
+            Text('Progres Laporan Anda',
+                style: GoogleFonts.plusJakartaSans(
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                    color: AppTheme.primaryPink)),
             const SizedBox(height: 24),
-
             _buildTimelineStep(
               icon: Icons.check_circle_outline,
               iconColor: const Color(0xFF0EA5E9),
@@ -1481,24 +1718,27 @@ class ProgressLaporanScreen extends StatelessWidget {
               isActive: false,
               isLast: true,
             ),
-
             const Spacer(),
-
             SizedBox(
               width: double.infinity,
               height: 44,
               child: OutlinedButton(
                 style: OutlinedButton.styleFrom(
                   side: const BorderSide(color: AppTheme.primaryPink),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10)),
                 ),
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (_) => DetailLaporanScreen(laporan: laporan)),
+                    MaterialPageRoute(
+                        builder: (_) => DetailLaporanScreen(laporan: laporan)),
                   );
                 },
-                child: Text('Lihat Detail', style: GoogleFonts.plusJakartaSans(color: AppTheme.primaryPink, fontWeight: FontWeight.bold)),
+                child: Text('Lihat Detail',
+                    style: GoogleFonts.plusJakartaSans(
+                        color: AppTheme.primaryPink,
+                        fontWeight: FontWeight.bold)),
               ),
             ),
             const SizedBox(height: 16),
@@ -1542,9 +1782,15 @@ class ProgressLaporanScreen extends StatelessWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(title, style: GoogleFonts.plusJakartaSans(fontSize: 13, fontWeight: FontWeight.bold, color: isActive ? AppTheme.textDark : AppTheme.textGrey)),
+            Text(title,
+                style: GoogleFonts.plusJakartaSans(
+                    fontSize: 13,
+                    fontWeight: FontWeight.bold,
+                    color: isActive ? AppTheme.textDark : AppTheme.textGrey)),
             const SizedBox(height: 2),
-            Text(subtitle, style: GoogleFonts.plusJakartaSans(fontSize: 11, color: AppTheme.textGrey)),
+            Text(subtitle,
+                style: GoogleFonts.plusJakartaSans(
+                    fontSize: 11, color: AppTheme.textGrey)),
           ],
         ),
       ],
@@ -1602,7 +1848,8 @@ class DetailLaporanScreen extends StatelessWidget {
                         ),
                       ),
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 8, vertical: 4),
                         decoration: BoxDecoration(
                           color: AppTheme.badgeYellowBg,
                           borderRadius: BorderRadius.circular(6),
@@ -1619,8 +1866,8 @@ class DetailLaporanScreen extends StatelessWidget {
                     ],
                   ),
                   const Divider(height: 20),
-
-                  _buildDetailItem('Kategori', laporan['kategori'] ?? 'Kekerasan terhadap Perempuan'),
+                  _buildDetailItem('Kategori',
+                      laporan['kategori'] ?? 'Kekerasan terhadap Perempuan'),
                   const SizedBox(height: 10),
                   _buildDetailItem(
                     'Tanggal Kejadian',
@@ -1629,15 +1876,18 @@ class DetailLaporanScreen extends StatelessWidget {
                         : '12 Mei 2025',
                   ),
                   const SizedBox(height: 10),
-                  _buildDetailItem('Lokasi Kejadian', laporan['lokasi_kejadian'] ?? 'Jember'),
+                  _buildDetailItem('Lokasi Kejadian',
+                      laporan['lokasi_kejadian'] ?? 'Jember'),
                   const SizedBox(height: 10),
                   _buildDetailItem(
                     'Kronologi',
-                    laporan['kronologi'] ?? 'Saya mengalami tindakan kekerasan oleh seseorang di tempat umum...',
+                    laporan['kronologi'] ??
+                        'Saya mengalami tindakan kekerasan oleh seseorang di tempat umum...',
                   ),
                   const SizedBox(height: 12),
-
-                  Text('Bukti', style: GoogleFonts.plusJakartaSans(fontSize: 11, color: AppTheme.textGrey)),
+                  Text('Bukti',
+                      style: GoogleFonts.plusJakartaSans(
+                          fontSize: 11, color: AppTheme.textGrey)),
                   const SizedBox(height: 6),
                   Row(
                     children: [
@@ -1647,29 +1897,36 @@ class DetailLaporanScreen extends StatelessWidget {
                           width: 48,
                           height: 48,
                           color: const Color(0xFFF1F3F6),
-                          child: const Icon(Icons.image, color: Colors.grey, size: 28),
+                          child: const Icon(Icons.image,
+                              color: Colors.grey, size: 28),
                         ),
                       ),
                       const SizedBox(width: 10),
-                      Text('bukti.jpg', style: GoogleFonts.plusJakartaSans(fontSize: 12, fontWeight: FontWeight.w600, color: AppTheme.textDark)),
+                      Text('bukti.jpg',
+                          style: GoogleFonts.plusJakartaSans(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600,
+                              color: AppTheme.textDark)),
                     ],
                   ),
                 ],
               ),
             ),
-
             const Spacer(),
-
             SizedBox(
               width: double.infinity,
               height: 44,
               child: OutlinedButton(
                 style: OutlinedButton.styleFrom(
                   side: const BorderSide(color: AppTheme.primaryPink),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10)),
                 ),
                 onPressed: () => _kembaliKeRiwayat(context),
-                child: Text('Kembali', style: GoogleFonts.plusJakartaSans(color: AppTheme.primaryPink, fontWeight: FontWeight.bold)),
+                child: Text('Kembali',
+                    style: GoogleFonts.plusJakartaSans(
+                        color: AppTheme.primaryPink,
+                        fontWeight: FontWeight.bold)),
               ),
             ),
             const SizedBox(height: 16),
@@ -1683,9 +1940,15 @@ class DetailLaporanScreen extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(title, style: GoogleFonts.plusJakartaSans(fontSize: 11, color: AppTheme.textGrey)),
+        Text(title,
+            style: GoogleFonts.plusJakartaSans(
+                fontSize: 11, color: AppTheme.textGrey)),
         const SizedBox(height: 2),
-        Text(content, style: GoogleFonts.plusJakartaSans(fontSize: 12.5, fontWeight: FontWeight.w600, color: AppTheme.textDark)),
+        Text(content,
+            style: GoogleFonts.plusJakartaSans(
+                fontSize: 12.5,
+                fontWeight: FontWeight.w600,
+                color: AppTheme.textDark)),
       ],
     );
   }
@@ -1718,7 +1981,8 @@ class EdukasiScreen extends StatelessWidget {
             ),
             child: Row(
               children: [
-                const Icon(Icons.shield_outlined, color: AppTheme.primaryPink, size: 36),
+                const Icon(Icons.shield_outlined,
+                    color: AppTheme.primaryPink, size: 36),
                 const SizedBox(width: 14),
                 Expanded(
                   child: Column(
@@ -1726,12 +1990,16 @@ class EdukasiScreen extends StatelessWidget {
                     children: [
                       Text(
                         'Sahabat Perlindungan Perempuan & Anak',
-                        style: GoogleFonts.plusJakartaSans(fontSize: 13, fontWeight: FontWeight.bold, color: AppTheme.textDark),
+                        style: GoogleFonts.plusJakartaSans(
+                            fontSize: 13,
+                            fontWeight: FontWeight.bold,
+                            color: AppTheme.textDark),
                       ),
                       const SizedBox(height: 4),
                       Text(
                         'Ketahui hak Anda dan kenali langkah aman dalam menghadapi tindak kekerasan.',
-                        style: GoogleFonts.plusJakartaSans(fontSize: 11, color: AppTheme.textGrey),
+                        style: GoogleFonts.plusJakartaSans(
+                            fontSize: 11, color: AppTheme.textGrey),
                       ),
                     ],
                   ),
@@ -1740,10 +2008,12 @@ class EdukasiScreen extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 18),
-
-          Text('Hotline Layanan Cepat Tanggap', style: GoogleFonts.plusJakartaSans(fontSize: 14, fontWeight: FontWeight.bold, color: AppTheme.textDark)),
+          Text('Hotline Layanan Cepat Tanggap',
+              style: GoogleFonts.plusJakartaSans(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                  color: AppTheme.textDark)),
           const SizedBox(height: 10),
-
           Row(
             children: [
               Expanded(
@@ -1766,23 +2036,28 @@ class EdukasiScreen extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 22),
-
-          Text('Panduan & Pengetahuan Hukum', style: GoogleFonts.plusJakartaSans(fontSize: 14, fontWeight: FontWeight.bold, color: AppTheme.textDark)),
+          Text('Panduan & Pengetahuan Hukum',
+              style: GoogleFonts.plusJakartaSans(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                  color: AppTheme.textDark)),
           const SizedBox(height: 10),
-
           _buildEduAccordion(
             title: '1. UU Tindak Pidana Kekerasan Seksual (UU TPKS)',
-            desc: 'UU No. 12 Tahun 2022 menjamin pencegahan, penanganan, perlindungan, dan pemulihan hak korban serta penegakan hukum bagi pelaku.',
+            desc:
+                'UU No. 12 Tahun 2022 menjamin pencegahan, penanganan, perlindungan, dan pemulihan hak korban serta penegakan hukum bagi pelaku.',
             icon: Icons.gavel_outlined,
           ),
           _buildEduAccordion(
             title: '2. Hak Korban dan Kerahasiaan Identitas',
-            desc: 'Setiap pelapor/korban berhak mendapatkan pendampingan psikologis, bantuan hukum gratis, serta jaminan kerahasiaan identitas.',
+            desc:
+                'Setiap pelapor/korban berhak mendapatkan pendampingan psikologis, bantuan hukum gratis, serta jaminan kerahasiaan identitas.',
             icon: Icons.lock_outline,
           ),
           _buildEduAccordion(
             title: '3. Langkah Penting Saat Mengalami Kasus',
-            desc: '• Amankan diri terlebih dahulu ke tempat yang aman.\n• Simpan bukti-bukti (pesan teks, visum, atau foto).\n• Laporkan segera melalui aplikasi Sahabat PPA atau hotline resmi.',
+            desc:
+                '• Amankan diri terlebih dahulu ke tempat yang aman.\n• Simpan bukti-bukti (pesan teks, visum, atau foto).\n• Laporkan segera melalui aplikasi Sahabat PPA atau hotline resmi.',
             icon: Icons.health_and_safety_outlined,
           ),
           const SizedBox(height: 24),
@@ -1791,7 +2066,11 @@ class EdukasiScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildEmergencyContact({required IconData icon, required String label, required String desc, required Color color}) {
+  Widget _buildEmergencyContact(
+      {required IconData icon,
+      required String label,
+      required String desc,
+      required Color color}) {
     return Container(
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
@@ -1804,15 +2083,22 @@ class EdukasiScreen extends StatelessWidget {
         children: [
           Icon(icon, color: color, size: 24),
           const SizedBox(height: 8),
-          Text(label, style: GoogleFonts.plusJakartaSans(fontSize: 14, fontWeight: FontWeight.bold, color: AppTheme.textDark)),
+          Text(label,
+              style: GoogleFonts.plusJakartaSans(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                  color: AppTheme.textDark)),
           const SizedBox(height: 2),
-          Text(desc, style: GoogleFonts.plusJakartaSans(fontSize: 10.5, color: AppTheme.textGrey)),
+          Text(desc,
+              style: GoogleFonts.plusJakartaSans(
+                  fontSize: 10.5, color: AppTheme.textGrey)),
         ],
       ),
     );
   }
 
-  Widget _buildEduAccordion({required String title, required String desc, required IconData icon}) {
+  Widget _buildEduAccordion(
+      {required String title, required String desc, required IconData icon}) {
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       decoration: BoxDecoration(
@@ -1823,11 +2109,17 @@ class EdukasiScreen extends StatelessWidget {
       child: ExpansionTile(
         tilePadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 2),
         leading: Icon(icon, color: AppTheme.primaryPink, size: 22),
-        title: Text(title, style: GoogleFonts.plusJakartaSans(fontSize: 13, fontWeight: FontWeight.w600, color: AppTheme.textDark)),
+        title: Text(title,
+            style: GoogleFonts.plusJakartaSans(
+                fontSize: 13,
+                fontWeight: FontWeight.w600,
+                color: AppTheme.textDark)),
         childrenPadding: const EdgeInsets.fromLTRB(16, 0, 16, 14),
         expandedCrossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(desc, style: GoogleFonts.plusJakartaSans(fontSize: 12, color: const Color(0xFF475569), height: 1.5)),
+          Text(desc,
+              style: GoogleFonts.plusJakartaSans(
+                  fontSize: 12, color: const Color(0xFF475569), height: 1.5)),
         ],
       ),
     );
@@ -1858,14 +2150,20 @@ class ProfilScreenContent extends StatelessWidget {
                   color: Color(0xFFFFEEF2),
                   shape: BoxShape.circle,
                 ),
-                child: const Icon(Icons.person, size: 40, color: AppTheme.primaryPink),
+                child: const Icon(Icons.person,
+                    size: 40, color: AppTheme.primaryPink),
               ),
             ),
             const SizedBox(height: 12),
-            Text('Revitaaa', style: GoogleFonts.plusJakartaSans(fontSize: 18, fontWeight: FontWeight.bold, color: AppTheme.textDark)),
-            Text('revita@student.ac.id', style: GoogleFonts.plusJakartaSans(fontSize: 12, color: AppTheme.textGrey)),
+            Text('Revitaaa',
+                style: GoogleFonts.plusJakartaSans(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: AppTheme.textDark)),
+            Text('revita@student.ac.id',
+                style: GoogleFonts.plusJakartaSans(
+                    fontSize: 12, color: AppTheme.textGrey)),
             const SizedBox(height: 28),
-
             Container(
               decoration: BoxDecoration(
                 color: Colors.white,
@@ -1875,15 +2173,24 @@ class ProfilScreenContent extends StatelessWidget {
               child: Column(
                 children: [
                   ListTile(
-                    leading: const Icon(Icons.security, color: AppTheme.primaryPink),
-                    title: Text('Perlindungan & Privasi Data', style: GoogleFonts.plusJakartaSans(fontSize: 13, fontWeight: FontWeight.w600)),
-                    trailing: const Icon(Icons.chevron_right, color: AppTheme.textGrey),
+                    leading:
+                        const Icon(Icons.security, color: AppTheme.primaryPink),
+                    title: Text('Perlindungan & Privasi Data',
+                        style: GoogleFonts.plusJakartaSans(
+                            fontSize: 13, fontWeight: FontWeight.w600)),
+                    trailing: const Icon(Icons.chevron_right,
+                        color: AppTheme.textGrey),
                   ),
                   const Divider(height: 1),
                   ListTile(
-                    leading: const Icon(Icons.storage_outlined, color: AppTheme.primaryPink),
-                    title: Text('Status Database (Laragon)', style: GoogleFonts.plusJakartaSans(fontSize: 13, fontWeight: FontWeight.w600)),
-                    subtitle: Text('Terkoneksi ke db_workshop', style: GoogleFonts.plusJakartaSans(fontSize: 11, color: Colors.green)),
+                    leading: const Icon(Icons.storage_outlined,
+                        color: AppTheme.primaryPink),
+                    title: Text('Status Database (Laragon)',
+                        style: GoogleFonts.plusJakartaSans(
+                            fontSize: 13, fontWeight: FontWeight.w600)),
+                    subtitle: Text('Terkoneksi ke db_workshop',
+                        style: GoogleFonts.plusJakartaSans(
+                            fontSize: 11, color: Colors.green)),
                   ),
                 ],
               ),
