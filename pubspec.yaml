@@ -24,6 +24,6 @@ dev_dependencies:
 flutter:
   uses-material-design: true
 
-  # Opsional: jika nanti ada aset gambar lokal
-  # assets:
-  #   - assets/images/
+  # assets harus menjorok 2 spasi di bawah flutter
+  assets:
+    - lib/assets/logo.png

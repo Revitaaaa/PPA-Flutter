@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'register_screen.dart';
+import 'register.dart';
+import '../widgets/navbar.dart';
 
 class LoginScreen extends StatefulWidget {
   final VoidCallback onLoginSuccess;
@@ -71,7 +72,11 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         child: IconButton(
                           padding: EdgeInsets.zero,
-                          onPressed: () {},
+                          onPressed: () {
+                            if (Navigator.canPop(context)) {
+                              Navigator.pop(context);
+                            }
+                          },
                           icon: const Icon(
                             Icons.arrow_back_ios_new,
                             color: Colors.white,
@@ -81,7 +86,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
 
-                    // Logo
+                    // Logo Sahabat PPA
                     Positioned(
                       bottom: 0,
                       left: 0,
@@ -101,10 +106,13 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                             ],
                           ),
-                          child: const Icon(
-                            Icons.handshake_outlined,
-                            color: headerPink,
-                            size: 36,
+                          child: Center(
+                            child: Image.asset(
+                              'lib/assets/logo.png',
+                              width: 38,
+                              height: 38,
+                              fit: BoxFit.contain,
+                            ),
                           ),
                         ),
                       ),
@@ -244,6 +252,13 @@ class _LoginScreenState extends State<LoginScreen> {
                       child: ElevatedButton(
                         onPressed: () {
                           widget.onLoginSuccess();
+
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const NavbarPage(),
+                            ),
+                          );
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: primaryPink,
@@ -280,14 +295,14 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
 
                     // PEMBATAS
-                    Row(
+                    const Row(
                       children: [
-                        const Expanded(
+                        Expanded(
                           child: Divider(
                             color: Color(0xFFF0C5D1),
                           ),
                         ),
-                        const Padding(
+                        Padding(
                           padding: EdgeInsets.symmetric(horizontal: 12),
                           child: Text(
                             'atau',
@@ -297,7 +312,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           ),
                         ),
-                        const Expanded(
+                        Expanded(
                           child: Divider(
                             color: Color(0xFFF0C5D1),
                           ),
