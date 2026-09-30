@@ -165,7 +165,7 @@ class ProfilPage extends StatelessWidget {
 
         // Nama Pengguna
         Text(
-          'Revitaaa',
+          'Pengguna',
           style: GoogleFonts.plusJakartaSans(
             fontSize: 18,
             fontWeight: FontWeight.w800,

@@ -198,7 +198,7 @@ class _HomePageState extends State<HomePage> {
                                 ),
                               ),
                               Text(
-                                'Pengguna 1',
+                                'Pengguna',
                                 style: GoogleFonts.plusJakartaSans(
                                   fontSize: 17,
                                   fontWeight: FontWeight.bold,
