@@ -1,4 +1,4 @@
-import 'dart:convert';
+import 'dart0convert';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
@@ -185,6 +185,26 @@ class _RiwayatPageState extends State<RiwayatPage> {
   Widget build(BuildContext context) {
     return BaseLayout(
       showBackButton: false,
+      titleWidget: Row(
+        children: [
+          // Mengganti Icon Hati dengan logo.png
+          Image.asset(
+            'lib/assets/logo.png',
+            width: 28,  // Sesuaikan ukuran lebar logo
+            height: 28, // Sesuaikan ukuran tinggi logo
+            fit: BoxFit.contain,
+          ),
+          const SizedBox(width: 8), // Jarak antara logo dan teks
+          Text(
+            'Sahabat PPA',
+            style: GoogleFonts.plusJakartaSans(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontSize: 16,
+            ),
+          ),
+        ],
+      ),
       child: _loading
           ? const Center(child: CircularProgressIndicator(color: AppTheme.primaryPink))
           : _list.isEmpty
